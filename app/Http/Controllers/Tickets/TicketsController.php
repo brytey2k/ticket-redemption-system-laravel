@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tickets;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TicketRedemptionRequest;
 use App\Services\TicketService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,32 +16,19 @@ class TicketsController extends Controller
         return view('tickets.redeem');
     }
 
-    public function processRedemption(Request $request, TicketService $ticketService) {
-        $data = $request->validate([
-            'code' => 'required',
-        ]);
+    public function processRedemption(TicketRedemptionRequest $request, TicketService $ticketService) {
+        $data = $request->validated();
 
-        if (RateLimiter::remaining('redeem-ticket:' . $request->user()->id, $perMinute = 1)) {
-            if($ticketService->redeemTicket($data['code'])) {
-                RateLimiter::hit('redeem-ticket:' . $request->user()->id);
-
-                return redirect()
-                    ->route('tickets.redeem')
-                    ->with('success', __('Ticket redeemed successfully'));
-            } else {
-                return redirect()
-                    ->route('tickets.redeem')
-                    ->with('error', __('Failed to redeem ticket. Please try again'));
-            }
-        }
-
-        if (RateLimiter::tooManyAttempts('redeem-ticket:' . $request->user()->id, $perMinute = 1)) {
-            $seconds = RateLimiter::availableIn('redeem-ticket:' . $request->user()->id);
-            // todo: log this attempt
+        if($ticketService->redeemTicket($data['code'])) {
+            RateLimiter::hit('redeem-ticket:' . $request->user()->id);
 
             return redirect()
                 ->route('tickets.redeem')
-                ->with('error', __('You may try again in ' . $seconds . ' seconds.'));
+                ->with('success', __('Ticket redeemed successfully'));
+        } else {
+            return redirect()
+                ->route('tickets.redeem')
+                ->with('error', __('Failed to redeem ticket. Please try again'));
         }
     }
 

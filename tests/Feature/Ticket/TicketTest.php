@@ -5,6 +5,7 @@ namespace Tests\Feature\Ticket;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\RateLimiter;
 use Tests\TestCase;
 
 class TicketTest extends TestCase
@@ -30,7 +31,9 @@ class TicketTest extends TestCase
         $user = User::factory()->create();
         $ticket = Ticket::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->withoutMiddleware()
+            ->actingAs($user)
             ->patch(route('tickets.redeem'), [
                 'code' => $ticket->code,
             ]);
@@ -48,10 +51,34 @@ class TicketTest extends TestCase
     public function testUserCanViewRedemptionHistory() {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->withoutMiddleware()
+            ->actingAs($user)
             ->get(route('tickets.redemption-history'));
 
         $response->assertOk();
+    }
+
+    public function testRateLimiterBlocksExcessRequests() {
+        $user = User::factory()->create();
+        $ticket = Ticket::factory()->create();
+
+        foreach(range(1, 5) as $i) {
+            $this
+                ->actingAs($user)
+                ->patch(route('tickets.redeem'), [
+                    'code' => $ticket->code,
+                ])
+                ->assertRedirect(route('tickets.redeem'))
+                ->assertHeader('X-Ratelimit-Remaining', 5 - $i);
+        }
+
+        $this
+            ->actingAs($user)
+            ->patch(route('tickets.redeem'), [
+                'code' => $ticket->code,
+            ])
+            ->assertStatus(429);
     }
 
 }

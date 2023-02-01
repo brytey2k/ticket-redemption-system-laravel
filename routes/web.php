@@ -31,7 +31,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('tickets')->name('tickets.')->middleware('auth')->group(function() {
     Route::get('/redeem', [TicketsController::class, 'redeem'])->name('redeem');
-    Route::patch('/redeem', [TicketsController::class, 'processRedemption'])->name('process-redemption');
+    Route::patch('/redeem', [TicketsController::class, 'processRedemption'])->name('process-redemption')
+        ->middleware(['throttle:ticket_redemption']);
     Route::get('/redemption-history', [TicketsController::class, 'history'])->name('redemption-history');
 });
 

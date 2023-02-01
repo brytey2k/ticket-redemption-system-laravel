@@ -21,6 +21,7 @@ class TicketFactory extends Factory
             'code' => \Str::random(8),
             'user_id' => User::cursor()->random(),
             'status' => $this->faker->randomElement(['redeemed', 'not_redeemed']),
+            'redeemed_at' => now()->format('Y-m-d H:i:s'),
         ];
     }
 

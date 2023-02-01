@@ -48,5 +48,17 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+
+        RateLimiter::for('ticket_redemption', function (Request $request) {
+            if(config('app.env') === 'local') {
+                return Limit::perHour(60)->by($request->user()?->id ?: $request->ip());
+            } elseif(config('app.env') === 'testing') {
+                // we are using the user's name to ensure we get a different value for every test
+                // this way, we would not have to worry about rate limiter key clashes and having to reset the rate limiter
+                return Limit::perHour(5)->by($request->user()?->name);
+            } else {
+                return Limit::perHour(200)->by($request->user()?->id ?: $request->ip());
+            }
+        });
     }
 }
