@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
              'name' => 'Bright Nkrumah',
              'email' => 'admin@admin.com',
          ]);
+         $this->call(TicketSeeder::class);
     }
 }

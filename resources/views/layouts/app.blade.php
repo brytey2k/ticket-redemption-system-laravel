@@ -28,6 +28,18 @@
                 </header>
             @endif
 
+            @if(session('success'))
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}

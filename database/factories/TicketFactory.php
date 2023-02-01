@@ -27,8 +27,11 @@ class TicketFactory extends Factory
     public function redeemed(bool $state = true)
     {
         return $this->state(function (array $attributes) use ($state) {
+            $status = $state ? 'redeemed' : 'not_redeemed';
+            $redeemedAt = $status === 'redeemed' ? $this->faker->dateTime : null;
             return [
                 'status' => $state ? 'redeemed' : 'not_redeemed',
+                'redeemed_at' => $redeemedAt,
             ];
         });
     }

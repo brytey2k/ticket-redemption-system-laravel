@@ -9,14 +9,10 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'user_id', 'status'];
+    protected $fillable = ['code', 'user_id', 'status', 'redeemed_at'];
 
-    public function redeemed() {
-        $this->where('status', '=', 'redeemed');
-    }
-
-    public function notRedeemed() {
-        $this->where('status', '=', 'not_redeemed');
+    public function redeemedBy() {
+        return $this->belongsTo(User::class);
     }
 
 }
