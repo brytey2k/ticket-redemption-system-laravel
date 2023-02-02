@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\Ticket;
+use App\Models\User;
 use Log;
 
 class TicketService
 {
 
-    public function redeemTicket(string $code): ?Ticket
+    public function redeemTicket(string $code, User $user): ?Ticket
     {
         $ticket = Ticket::where('code', '=', $code)
             ->where('status', '=', 'not_redeemed')
@@ -18,7 +19,7 @@ class TicketService
             return null;
         }
 
-        if($this->markAsRedeemed($ticket)) {
+        if($this->markAsRedeemed($ticket, $user)) {
             $ticket->refresh();
             return $ticket;
         } else {
@@ -28,11 +29,12 @@ class TicketService
         }
     }
 
-    public function markAsRedeemed(Ticket $ticket): bool
+    public function markAsRedeemed(Ticket $ticket, User $user): bool
     {
         return $ticket->update([
             'status' => 'redeemed',
-            'redeemed_at' => now()->format('Y-m-d H:i:s')
+            'redeemed_at' => now()->format('Y-m-d H:i:s'),
+            'user_id' => $user->id,
         ]);
     }
 

@@ -30,10 +30,19 @@ class TicketFactory extends Factory
         return $this->state(function (array $attributes) use ($state) {
             $status = $state ? 'redeemed' : 'not_redeemed';
             $redeemedAt = $status === 'redeemed' ? $this->faker->dateTime : null;
-            return [
-                'status' => $state ? 'redeemed' : 'not_redeemed',
-                'redeemed_at' => $redeemedAt,
-            ];
+
+            if($status === 'redeemed') {
+                return [
+                    'status' => 'redeemed',
+                    'redeemed_at' => $redeemedAt,
+                ];
+            } else {
+                return [
+                    'status' => 'not_redeemed',
+                    'redeemed_at' => null,
+                    'user_id' => null,
+                ];
+            }
         });
     }
 

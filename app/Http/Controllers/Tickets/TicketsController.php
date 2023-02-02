@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Tickets;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRedemptionRequest;
 use App\Services\TicketService;
+use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 
 class TicketsController extends Controller
 {
@@ -19,7 +19,7 @@ class TicketsController extends Controller
     public function processRedemption(TicketRedemptionRequest $request, TicketService $ticketService) {
         $data = $request->validated();
 
-        if($ticketService->redeemTicket($data['code'])) {
+        if($ticketService->redeemTicket($data['code'], Auth::user())) {
             return redirect()
                 ->route('tickets.redeem')
                 ->with('success', __('Ticket redeemed successfully'));
