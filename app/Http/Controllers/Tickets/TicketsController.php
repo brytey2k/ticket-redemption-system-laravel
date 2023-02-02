@@ -31,7 +31,14 @@ class TicketsController extends Controller
     }
 
     public function history(Request $request) {
-        $tickets = $request->user()->redeemedTickets()->paginate();
+        $tickets = $request->user()->redeemedTickets();
+
+        if($request->query('code')) {
+            $tickets->where('code', '=', $request->query('code'));
+        }
+
+        $tickets = $tickets->paginate();
+
         return view('tickets.history', compact('tickets'));
     }
 

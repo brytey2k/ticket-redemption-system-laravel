@@ -7,6 +7,19 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <form method="get" action="{{ route('tickets.redemption-history') }}" class="mt-6 space-y-6">
+                <div>
+                    <x-input-label for="code" :value="__('Ticket Code')" />
+                    <x-text-input id="name" name="code" type="text" class="mt-1 block w-full"
+                                  :value="old('code', request()->query('code'))" required autofocus />
+                    <x-input-error class="mt-2" :messages="$errors->get('code')" />
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <x-primary-button>{{ __('Search Ticket') }}</x-primary-button>
+                </div>
+            </form>
+
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <table class="table-auto">
                     <thead>
