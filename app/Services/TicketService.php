@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Ticket;
+use Log;
 
 class TicketService
 {
@@ -21,7 +22,8 @@ class TicketService
             $ticket->refresh();
             return $ticket;
         } else {
-            // todo: log this... this is something we will be interest in
+            Log::error("Marking code as redeemed failed", ['code' => $ticket]);
+
             return null;
         }
     }
