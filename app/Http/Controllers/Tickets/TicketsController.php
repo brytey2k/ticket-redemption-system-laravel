@@ -20,8 +20,6 @@ class TicketsController extends Controller
         $data = $request->validated();
 
         if($ticketService->redeemTicket($data['code'])) {
-            RateLimiter::hit('redeem-ticket:' . $request->user()->id);
-
             return redirect()
                 ->route('tickets.redeem')
                 ->with('success', __('Ticket redeemed successfully'));
