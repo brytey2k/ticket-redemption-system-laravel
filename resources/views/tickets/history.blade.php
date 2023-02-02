@@ -12,7 +12,6 @@
                     <x-input-label for="code" :value="__('Ticket Code')" />
                     <x-text-input id="name" name="code" type="text" class="mt-1 block w-full"
                                   :value="old('code', request()->query('code'))" required autofocus />
-                    <x-input-error class="mt-2" :messages="$errors->get('code')" />
                 </div>
 
                 <div class="flex items-center gap-4">
