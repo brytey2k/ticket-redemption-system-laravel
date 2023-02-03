@@ -28,6 +28,9 @@ This is a system to redeem tickets for events. Features of this system include
 - System can accessed at http://laravel.test
 - Use email: admin@admin.com and password: password to login
 
+## Tests
+To run tests, run `sail artisan test`
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this system, please send an e-mail to Bright Nkrumah via [brytey2k@gmail.com](mailto:brytey2k@gmail.com). All security vulnerabilities will be promptly addressed.
