@@ -26,7 +26,10 @@ This is a system to redeem tickets for events. Features of this system include
 - Run `composer install`
   - You may see a `Predis\Connection\ConnectionException` exception but this is because laravel has not been started yet. We start laravel sail in the next step
 - Run `./vendor/bin/sail up -d` to start up the application
+- Run `./vendor/bin/sail artisan key:generate`
 - Run `sail artisan migrate --seed` to create the database with initial data for testing
+- Run `npm install`
+- Run `npm run dev`
 - System can accessed at http://laravel.test
 - Use email: admin@admin.com and password: password to login
 

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
          User::factory()->create([
              'name' => 'Bright Nkrumah',
              'email' => 'admin@admin.com',
+             'role' => 'admin',
          ]);
          $this->call(TicketSeeder::class);
     }

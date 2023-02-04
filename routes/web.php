@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Tickets\TicketsController;
+use App\Http\Controllers\Users\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,8 @@ Route::prefix('tickets')->name('tickets.')->middleware('auth')->group(function()
         ->middleware(['throttle:ticket_redemption']);
     Route::get('/redemption-history', [TicketsController::class, 'history'])->name('redemption-history');
 });
+
+Route::resource('users', UsersController::class)->middleware(['auth'])
+    ->except(['show']);
 
 require __DIR__.'/auth.php';
