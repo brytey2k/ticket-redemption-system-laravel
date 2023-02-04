@@ -34,7 +34,8 @@ This is a system to redeem tickets for events. Features of this system include
 - Use email: admin@admin.com and password: password to login
 
 ## Tests
-To run tests, run `./vendor/bin/sail artisan test`
+- To run tests, run `./vendor/bin/sail artisan test`
+- To generate code coverage reports with tests, run `./vendor/bin/sail artisan test --coverage-html coverage-report`
 
 ## Security Vulnerabilities
 
