@@ -49,7 +49,7 @@ class GenerateTicketsJob implements ShouldQueue
             ]);
 
             // if we still have more after 100, send it to the next job so we dont get memory leaks or timeout
-            if($counter === 100 && $this->total - $counter > 0) {
+            if($counter === config('tickets.numberToGeneratePerJobRun') && $this->total - $counter > 0) {
                 dispatch(new static($this->total - $counter, $this->parentJobId));
                 return; // we are not breaking but aborting the function completely
             }
