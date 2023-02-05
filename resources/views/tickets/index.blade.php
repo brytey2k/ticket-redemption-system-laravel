@@ -41,6 +41,7 @@
                     <tr>
                         <th>Ticket Code</th>
                         <th>Status</th>
+                        <th>Redeemed By</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -50,6 +51,7 @@
                         <tr>
                             <td>{{ $ticket->code }}</td>
                             <td>{{ $ticket->status }}</td>
+                            <td>{{ $ticket->redeemedBy?->name }}</td>
                             <td>
                                 @if($ticket->status === 'not_redeemed')
                                     <form action="{{ route('tickets.process-redemption') }}" method="post">

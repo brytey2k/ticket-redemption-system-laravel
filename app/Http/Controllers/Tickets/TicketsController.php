@@ -19,7 +19,7 @@ class TicketsController extends Controller
     }
 
     public function index(Request $request) {
-        $tickets = Ticket::select();
+        $tickets = Ticket::with(['redeemedBy']);
 
         if($request->query('code')) {
             $tickets->where('code', '=', $request->query('code'));

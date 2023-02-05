@@ -12,7 +12,7 @@ class Ticket extends Model
     protected $fillable = ['code', 'user_id', 'status', 'redeemed_at'];
 
     public function redeemedBy() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 }
