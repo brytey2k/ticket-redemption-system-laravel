@@ -1,0 +1,39 @@
+- I use message queues to handle long-running processes in the background to enhance user experience, prevent timeouts
+and eliminate memory leaks.
+
+- The architecture used separates concerns of the system into logical units, so they can be managed separately without
+impacting other areas. Areas separated include:
+    - Rate limiter is moved away from the controller level to the middleware level even before requests reach the controllers
+    - Data access logic has been moved into separate services (eg. UserService). This way they can be easily passed around
+    and used wherever. This helps keep the models clean as well.
+    - The system uses the Model-View-Controller (MVC) pattern to ensure all the moving parts can be worked on and managed
+    separately from each other.
+    - Logging has been moved away from the controllers into model observers and other services. This keeps the controllers
+    without a lot of clutter.
+
+- The system uses Laravel policies to handle authorization. This is simple enough for a smaller system. For a larger system,
+we could have used a well-built Role Based Access Control (RBAC) package to handle authorization (e.g. Spatie's laravel-permission
+package).
+
+- Authentication checks are all done at the middleware level. This makes the controllers cleaner and straight to the
+point. Through this cluttering the code with authentication checks are eliminated.
+
+- Form request handlers are used for validation. This again keeps authorization and validation logic in separate places
+which can be managed easily. The benefit here is cleaner controllers and separation of concerns.
+
+- I chose Scout APM for monitoring because it has a first-party in-house supported package for laravel integration. Since
+they are the ones who developed the monitoring system, they are the best people to know how to build interfaces for it
+which can be integrated with other systems.
+
+- A stacked logging feature is used in this system. Various log levels are sent to specific areas, with critical errors
+to be sent directly to slack (this feature is not implemented but the configuration has been made available).
+
+- This system has been built to be able to utilize a multi-tiered and distributed architecture. Using docker compose,
+all components are hosted together. In production, this system can utilize separate VMs or a kubernetes cluster to scale out
+the different layers.
+
+- Laravel sail was used to handle the generation of docker-compose.yml file. I had to edit the main Dockerfile to install
+the scout apm php module to allow for deep monitoring which will help in the future when we need to track down bugs and
+bottlenecks.
+
+- Indexes have been provided for the tables used to ensure faster queries and searches in the database.
