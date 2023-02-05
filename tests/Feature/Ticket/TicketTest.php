@@ -29,7 +29,7 @@ class TicketTest extends TestCase
     public function testUserCanRedeemTicket()
     {
         $user = User::factory()->create();
-        $ticket = Ticket::factory()->create();
+        $ticket = Ticket::factory()->create(['status' => 'not_redeemed']);
 
         $response = $this
             ->withoutMiddleware()
@@ -80,6 +80,16 @@ class TicketTest extends TestCase
             ])
             ->assertStatus(429);
     }
+
+    public function testTicketGenerationPageCanBeRendered()
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+        $response = $this->actingAs($user)
+            ->get(route('tickets.generate'));
+
+        $response->assertOk();
+    }
+
 
     public function testTicketsCanBeGenerated() {
         $user = User::factory()->create(['role' => 'admin']);

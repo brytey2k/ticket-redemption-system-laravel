@@ -39,7 +39,8 @@ class TicketService
         ]);
     }
 
-    public function generateTickets(int $quantity) {
+    public function generateTickets(int $quantity): void
+    {
         dispatch(new GenerateTicketsJob($quantity));
     }
 

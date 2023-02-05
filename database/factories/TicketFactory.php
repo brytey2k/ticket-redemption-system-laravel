@@ -17,11 +17,12 @@ class TicketFactory extends Factory
      */
     public function definition()
     {
+        $status = $this->faker->randomElement(['redeemed', 'not_redeemed']);
         return [
             'code' => \Str::random(10),
-            'user_id' => User::cursor()->random(),
-            'status' => $this->faker->randomElement(['redeemed', 'not_redeemed']),
-            'redeemed_at' => now()->format('Y-m-d H:i:s'),
+            'user_id' => $status === 'redeemed' ? User::cursor()->random() : null,
+            'status' => $status,
+            'redeemed_at' => $status === 'redeemed' ? now()->format('Y-m-d H:i:s') : null,
         ];
     }
 
