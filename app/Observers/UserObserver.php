@@ -34,25 +34,4 @@ class UserObserver
         Log::info($this->prefix . 'User soft-deleted: ', [$user]);
     }
 
-    /**
-     * Handle the User "restored" event.
-     *
-     * @param  \App\Models\User  $user
-     * @return void
-     */
-    public function restored(User $user)
-    {
-        //
-    }
-
-    /**
-     * Handle the User "force deleted" event.
-     *
-     * @param  \App\Models\User  $user
-     * @return void
-     */
-    public function forceDeleted(User $user)
-    {
-        //
-    }
 }
