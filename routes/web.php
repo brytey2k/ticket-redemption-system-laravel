@@ -31,12 +31,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('tickets')->name('tickets.')->middleware('auth')->group(function() {
+Route::prefix('tickets')->name('tickets.')->middleware(['auth'])->group(function() {
+    Route::get('/generate', [TicketsController::class, 'generate'])->name('generate');
+    Route::post('/generate', [TicketsController::class, 'processTicketGeneration'])->name('process-ticket-generation');
+});
+
+Route::prefix('tickets')->name('tickets.')->middleware(['auth'])->group(function() {
     Route::get('/redeem', [TicketsController::class, 'redeem'])->name('redeem');
     Route::patch('/redeem', [TicketsController::class, 'processRedemption'])->name('process-redemption')
         ->middleware(['throttle:ticket_redemption']);
     Route::get('/redemption-history', [TicketsController::class, 'history'])->name('redemption-history');
 });
+Route::resource('tickets', TicketsController::class)->middleware(['auth'])->only(['index']);
 
 Route::resource('users', UsersController::class)->middleware(['auth'])
     ->except(['show']);

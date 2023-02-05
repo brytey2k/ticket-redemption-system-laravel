@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Ticket;
 
+use App\Jobs\GenerateTicketsJob;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Services\TicketService;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Support\Facades\Bus;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {
@@ -33,6 +35,15 @@ class TicketTest extends TestCase
 
         $ticket = $ticketService->redeemTicket('TzJqodQT', new User(['id' => 1]));
         $this->assertSame(null, $ticket, 'Redeemed ticket must not be redeemable the second time');
+    }
+
+    public function testTicketsCanBeGenerated() {
+        Bus::fake();
+
+        $ticketService = new TicketService();
+        $ticketService->generateTickets(5);
+
+        Bus::assertDispatched(GenerateTicketsJob::class);
     }
 
 }

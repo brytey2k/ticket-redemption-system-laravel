@@ -34,7 +34,7 @@ class TicketTest extends TestCase
         $response = $this
             ->withoutMiddleware()
             ->actingAs($user)
-            ->patch(route('tickets.redeem'), [
+            ->patch(route('tickets.process-redemption'), [
                 'code' => $ticket->code,
             ]);
 
@@ -79,6 +79,16 @@ class TicketTest extends TestCase
                 'code' => $ticket->code,
             ])
             ->assertStatus(429);
+    }
+
+    public function testTicketsCanBeGenerated() {
+        $user = User::factory()->create(['role' => 'admin']);
+        $response = $this->actingAs($user)
+            ->post(route('tickets.process-ticket-generation', [
+                'number_of_tickets' => 10,
+            ]));
+
+        $this->assertSame(10, Ticket::count(), 'There must be 10 tickets generated');
     }
 
 }

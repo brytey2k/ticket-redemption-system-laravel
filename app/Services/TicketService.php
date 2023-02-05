@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\GenerateTicketsJob;
 use App\Models\Ticket;
 use App\Models\User;
 use Log;
@@ -36,6 +37,10 @@ class TicketService
             'redeemed_at' => now()->format('Y-m-d H:i:s'),
             'user_id' => $user->id,
         ]);
+    }
+
+    public function generateTickets(int $quantity) {
+        dispatch(new GenerateTicketsJob($quantity));
     }
 
 }

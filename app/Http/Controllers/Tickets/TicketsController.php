@@ -3,13 +3,49 @@
 namespace App\Http\Controllers\Tickets;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TicketGenerationRequest;
 use App\Http\Requests\TicketRedemptionRequest;
+use App\Jobs\GenerateTicketsJob;
+use App\Models\Ticket;
 use App\Services\TicketService;
 use Auth;
 use Illuminate\Http\Request;
 
 class TicketsController extends Controller
 {
+
+    public function __construct(private TicketService $ticketService) {
+        $this->authorizeResource(Ticket::class, 'ticket');
+    }
+
+    public function index(Request $request) {
+        $tickets = Ticket::select();
+
+        if($request->query('code')) {
+            $tickets->where('code', '=', $request->query('code'));
+        }
+        if($request->query('status')) {
+            $tickets->where('status', '=', $request->query('status'));
+        }
+
+        $tickets = $tickets->paginate();
+
+        return view('tickets.index', compact('tickets', 'request'));
+    }
+
+    public function generate() {
+        return view('tickets.generate');
+    }
+
+    public function processTicketGeneration(TicketGenerationRequest $request) {
+        $quantity = $request->validated('number_of_tickets');
+
+        $this->ticketService->generateTickets($quantity);
+
+        return redirect()
+            ->route('tickets.index')
+            ->with('success', 'Ticket generation queued and processing');
+    }
 
     public function redeem()
     {

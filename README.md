@@ -30,6 +30,7 @@ This is a system to redeem tickets for events. Features of this system include
 - Run `./vendor/bin/sail artisan migrate --seed` to create the database with initial data for testing
 - Run `./vendor/bin/sail npm install`
 - Run `./vendor/bin/sail npm run dev`
+- Queue processing is processed with Redis and is handled automatically in the docker container. Just in case the queues are not being processed. You can run `./vendor/bin/sail artisan queue:work`
 - System can accessed at http://laravel.test
 - Use email: admin@admin.com and password: password to login
 
