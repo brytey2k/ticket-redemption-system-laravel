@@ -47,21 +47,16 @@ class TicketsController extends Controller
             ->with('success', 'Ticket generation queued and processing');
     }
 
-    public function redeem()
-    {
-        return view('tickets.redeem');
-    }
-
     public function processRedemption(TicketRedemptionRequest $request, TicketService $ticketService) {
         $data = $request->validated();
 
         if($ticketService->redeemTicket($data['code'], Auth::user())) {
             return redirect()
-                ->route('tickets.redeem')
+                ->route('tickets.index', ['status' => 'not_redeemed'])
                 ->with('success', __('Ticket redeemed successfully'));
         } else {
             return redirect()
-                ->route('tickets.redeem')
+                ->route('tickets.index', ['status' => 'not_redeemed'])
                 ->with('error', __('Failed to redeem ticket. Please try again'));
         }
     }

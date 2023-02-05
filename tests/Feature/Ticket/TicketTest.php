@@ -17,11 +17,11 @@ class TicketTest extends TestCase
      *
      * @return void
      */
-    public function testUserCanVisitTicketRedemptionPage()
+    public function testUserCanVisitTicketsPage()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)
-            ->get(route('tickets.redeem'));
+            ->get(route('tickets.index', ['status' => 'not_redeemed']));
 
         $response->assertOk();
     }
@@ -40,7 +40,7 @@ class TicketTest extends TestCase
 
         $response
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('tickets.redeem'));
+            ->assertRedirect(route('tickets.index', ['status' => 'not_redeemed']));
 
         $ticket->refresh();
 
@@ -66,16 +66,16 @@ class TicketTest extends TestCase
         foreach(range(1, 5) as $i) {
             $this
                 ->actingAs($user)
-                ->patch(route('tickets.redeem'), [
+                ->patch(route('tickets.process-redemption'), [
                     'code' => $ticket->code,
                 ])
-                ->assertRedirect(route('tickets.redeem'))
+                ->assertRedirect(route('tickets.index', ['status' => 'not_redeemed']))
                 ->assertHeader('X-Ratelimit-Remaining', 5 - $i);
         }
 
         $this
             ->actingAs($user)
-            ->patch(route('tickets.redeem'), [
+            ->patch(route('tickets.process-redemption'), [
                 'code' => $ticket->code,
             ])
             ->assertStatus(429);
