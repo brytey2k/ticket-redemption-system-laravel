@@ -33,6 +33,18 @@ class UserFeaturesTest extends TestCase
         $response->assertOk();
     }
 
+    public function testUserCreationPageRenders() {
+        $user = User::factory()->create([
+            'role' => 'admin',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get(route('users.create'));
+
+        $response->assertStatus(200);
+    }
+
+
     public function testUserCanBeCreated() {
         $user = User::factory()->create([
             'role' => 'admin',
@@ -70,6 +82,18 @@ class UserFeaturesTest extends TestCase
             ->assertRedirect(route('users.index'))
             ->assertSessionHas('success');
     }
+
+    public function testUserEditPageRenders() {
+        $user = User::factory()->create([
+            'role' => 'admin',
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get(route('users.edit', [User::factory()->create()]));
+
+        $response->assertStatus(200);
+    }
+
 
     public function testUserCanBeUpdatedWithoutPassword() {
         $user = User::factory()->create([

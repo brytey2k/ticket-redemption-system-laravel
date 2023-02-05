@@ -42,16 +42,9 @@ class UsersController extends Controller
     {
         $data = $request->validated();
 
-        if($this->userService->createUser($data)) {
-            return redirect()->route('users.index')
-                ->with('success', 'User created successfully');
-        } else {
-            Log::error($this->logPrefix . 'Error was encountered while creating user');
-            return redirect()
-                ->route('users.create')
-                ->withInput()
-                ->with('error', 'Failed to create user. Please try again');
-        }
+        $this->userService->createUser($data);
+        return redirect()->route('users.index')
+            ->with('success', 'User created successfully');
     }
 
     /**
@@ -69,18 +62,11 @@ class UsersController extends Controller
     {
         $data = $request->validated();
 
-        if($this->userService->updateUser($user, $data)) {
-            return redirect()
-                ->route('users.index')
-                ->with('success', 'User updated successfully');
-        } else {
-            Log::error($this->logPrefix . 'Error was encountered while updating user');
+        $this->userService->updateUser($user, $data);
 
-            return redirect()
-                ->route('users.edit', [$user])
-                ->withInput()
-                ->with('error', 'Failed to update user. Please try again');
-        }
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -88,18 +74,12 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        if($this->userService->deleteUser($user)) {
-            return redirect()
-                ->route('users.index')
-                ->with('success', 'User deleted successfully');
-        } else {
-            Log::error($this->logPrefix . 'Error was encountered while deleting user');
+        $this->userService->deleteUser($user);
 
-            return redirect()
-                ->route('user')
-                ->withInput()
-                ->with('error', 'Failed to delete user. Please try again');
-        }
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User deleted successfully');
+
     }
 
 }
