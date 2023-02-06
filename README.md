@@ -38,6 +38,9 @@ This is a system to redeem tickets for events. Features of this system include
 - To run tests, run `./vendor/bin/sail artisan test`
 - To generate code coverage reports with tests, run `./vendor/bin/sail artisan test --coverage-html coverage-report`
 
+# Architecture and Design Choices
+A note on this has been added to the ArchitectureAndDesignNotes.txt file in the root of the project directory
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this system, please send an e-mail to Bright Nkrumah via [brytey2k@gmail.com](mailto:brytey2k@gmail.com). All security vulnerabilities will be promptly addressed.
