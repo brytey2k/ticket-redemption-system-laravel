@@ -33,6 +33,7 @@ This is a system to redeem tickets for events. Features of this system include
 - Queue processing is processed with Redis. To execute the queue worker, run `./vendor/bin/sail artisan queue:work`
 - System can accessed at http://laravel.test
 - Use email: admin@admin.com and password: password to login
+- Mailhog has been included for receiving emails from the system. To test the password reset feature, visit http://localhost:8025. This service would have already started. After clicking on forgot password and providing your email. Submit the form and go to the mailhog interface to get get the password reset email that was sent to you from the application.
 
 ### Tests
 - To run tests, run `./vendor/bin/sail artisan test`
