@@ -36,4 +36,8 @@ the different layers.
 the scout apm php module to allow for deep monitoring which will help in the future when we need to track down bugs and
 bottlenecks.
 
+- With security, using Eloquent ORM, SQL injection attacks have been catered for in the system design. The blade
+templating engine used in laravel also caters for xss attacks. CSRF attacks have been considered and guarded against
+using middlewares in Laravel
+
 - Indexes have been provided for the tables used to ensure faster queries and searches in the database.
