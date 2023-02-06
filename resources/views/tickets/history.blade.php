@@ -20,9 +20,9 @@
             </form>
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <table class="table-auto">
+                <table class="table-auto" style="width: 100%;">
                     <thead>
-                    <tr>
+                    <tr style="text-align: left">
                         <th>Ticket Code</th>
                         <th>Redeemed At</th>
                     </tr>

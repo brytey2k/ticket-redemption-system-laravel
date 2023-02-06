@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('All Tickets') }}
+            {{ __('Tickets') }}
         </h2>
     </x-slot>
 
@@ -27,7 +27,7 @@
                 </div>
             </form>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
                 @php
                     $classes = "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150";
                 @endphp
@@ -36,9 +36,9 @@
                     <a href="{{ route('tickets.generate') }}" class="{{ $classes }}">Generate Tickets</a>
                 @endif
 
-                <table class="table-auto">
+                <table class="table-auto" style="width: 100%;">
                     <thead>
-                    <tr>
+                    <tr style="text-align: left">
                         <th>Ticket Code</th>
                         <th>Status</th>
                         <th>Redeemed By</th>
