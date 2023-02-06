@@ -3,7 +3,9 @@ and eliminate memory leaks.
 
 - The architecture used separates concerns of the system into logical units, so they can be managed separately without
 impacting other areas. Areas separated include:
-    - Rate limiter is moved away from the controller level to the middleware level even before requests reach the controllers
+    - Rate limiter is moved away from the controller level to the middleware level even before requests reach the controllers.
+    The laravel middleware layer uses the 'Chain of Responsibility' design pattern which helps to us handle the incoming
+    requests in any way we want at that level without having to clutter our controllers.
     - Data access logic has been moved into separate services (eg. UserService). This way they can be easily passed around
     and used wherever. This helps keep the models clean as well.
     - The system uses the Model-View-Controller (MVC) pattern to ensure all the moving parts can be worked on and managed
