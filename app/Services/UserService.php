@@ -26,6 +26,8 @@ class UserService
     {
         if(is_null($data['password'])) {
             unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
         }
 
         $res = $user->updateOrFail($data);
