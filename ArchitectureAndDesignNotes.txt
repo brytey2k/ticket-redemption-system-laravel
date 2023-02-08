@@ -43,3 +43,5 @@ templating engine used in laravel also caters for xss attacks. CSRF attacks have
 using middlewares in Laravel
 
 - Indexes have been provided for the tables used to ensure faster queries and searches in the database.
+
+- Session store uses the Redis in-memory store which is faster to access than the filesystem
