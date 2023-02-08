@@ -44,7 +44,7 @@ class TicketTest extends TestCase
 
         $ticket->refresh();
 
-        $this->assertSame('redeemed', $ticket->status, "Ticket must be marked as redeemed after it is redeemed");
+        $this->assertSame('redeemed', $ticket->getRawOriginal('status'), "Ticket must be marked as redeemed after it is redeemed");
         $this->assertNotNull($ticket->redeemed_at, "Ticket must have a redeemed date time after it is redeemed");
     }
 

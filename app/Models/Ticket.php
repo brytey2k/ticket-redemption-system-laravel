@@ -15,4 +15,13 @@ class Ticket extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function getActualAttribute($key)
+    {
+        return $this->attributes[$key];
+    }
+
+    public function getStatusAttribute($status) {
+        return ucwords(implode(' ', explode('_', $status)));
+    }
+
 }

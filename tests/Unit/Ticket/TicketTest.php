@@ -24,7 +24,7 @@ class TicketTest extends TestCase
             ]));
 
         $ticket = $ticketService->redeemTicket('TzJqodQT', new User(['id' => 1]));
-        $this->assertSame('redeemed', $ticket->status, 'Ticket status must be "redeemed" after it is redeemed');
+        $this->assertSame('redeemed', $ticket->getActualAttribute('status'), 'Ticket status must be "redeemed" after it is redeemed');
         $this->assertSame($now->format('Y-m-d H:i:s'), $ticket->redeemed_at, 'Ticket redeemed time must be set when ticket is redeemed');
     }
 

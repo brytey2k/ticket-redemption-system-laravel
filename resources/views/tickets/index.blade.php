@@ -53,7 +53,7 @@
                             <td>{{ $ticket->status }}</td>
                             <td>{{ $ticket->redeemedBy?->name }}</td>
                             <td>
-                                @if($ticket->status === 'not_redeemed')
+                                @if($ticket->getRawOriginal('status') === 'not_redeemed')
                                     <form onsubmit="return confirm('Confirm action?')" action="{{ route('tickets.process-redemption') }}" method="post">
                                         @method('PATCH')
                                         @csrf
