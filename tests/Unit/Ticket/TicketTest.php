@@ -41,7 +41,7 @@ class TicketTest extends TestCase
         Bus::fake();
 
         $ticketService = new TicketService();
-        $ticketService->generateTickets(5);
+        $ticketService->generateTickets(5, 'admin@email.com');
 
         Bus::assertDispatched(GenerateTicketsJob::class);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\TicketsGenerated;
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -9,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Mail;
 use Str;
 
 class GenerateTicketsJob implements ShouldQueue
@@ -22,7 +24,7 @@ class GenerateTicketsJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(public int $total, public string $parentJobId = '')
+    public function __construct(public int $total, public string $email, public string $parentJobId = '')
     {
     }
 
@@ -48,15 +50,16 @@ class GenerateTicketsJob implements ShouldQueue
                 'code' => Str::random(10),
             ]);
 
-            // if we still have more after 100, send it to the next job so we dont get memory leaks or timeout
+            // if we still have more after 100, send it to the next job, so we don't get memory leaks or timeout
             if($counter === config('tickets.numberToGeneratePerJobRun') && $this->total - $counter > 0) {
-                dispatch(new static($this->total - $counter, $this->parentJobId));
+                dispatch(new static($this->total - $counter, $this->email, $this->parentJobId));
                 return; // we are not breaking but aborting the function completely
             }
         }
 
         // at this point, all tickets have been generated... notify user by email
-        // todo: send email
+        // send email
+        Mail::to($this->email)->queue(new TicketsGenerated());
         info('['. __CLASS__ . '] ' . 'Ticket creation job completed. Job ID: ' . $this->parentJobId);
     }
 }

@@ -75,6 +75,7 @@ return [
             'transport' => 'failover',
             'mailers' => [
                 'smtp',
+                'sendmail',
                 'log',
             ],
         ],

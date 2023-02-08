@@ -40,7 +40,7 @@ class TicketsController extends Controller
     public function processTicketGeneration(TicketGenerationRequest $request) {
         $quantity = $request->validated('number_of_tickets');
 
-        $this->ticketService->generateTickets($quantity);
+        $this->ticketService->generateTickets($quantity, auth()->user()->email);
 
         return redirect()
             ->route('tickets.index')
