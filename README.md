@@ -22,10 +22,10 @@ This is a system to redeem tickets for events. Features of this system include
 - Clone the repository to your computer from your terminal using `git clone https://github.com/brytey2k/redeem-ticket-system.git` or download the repository
 - Run `cp .env.example .env` from your command line to create the system environment configuration file
 - Open `.env` file with your favourite editor and insert the correct configurations.
-- Create database giving it the same name specified in `.env` file
 - Run `composer install`
   - You may see a `Predis\Connection\ConnectionException` exception but this is because laravel sail has not been started yet. We start laravel sail in the next step
 - Run `./vendor/bin/sail up -d` to start up the application
+- Create database in postgres giving it the same name specified in `.env` file. You can use your favourite database client for this. DataGrip from Jetbrains is what was used for this.
 - Run `./vendor/bin/sail artisan key:generate`
 - Run `./vendor/bin/sail artisan migrate --seed` to create the database with initial data for testing
 - Run `./vendor/bin/sail npm install`
