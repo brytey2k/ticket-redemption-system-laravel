@@ -12,9 +12,7 @@ class TicketService
 
     public function redeemTicket(string $code, User $user): ?Ticket
     {
-        $ticket = Ticket::where('code', '=', $code)
-            ->where('status', '=', 'not_redeemed')
-            ->first();
+        $ticket = $this->getUnusedTicket($code);
 
         if(is_null($ticket)) {
             return null;
@@ -28,6 +26,12 @@ class TicketService
 
             return null;
         }
+    }
+
+    protected function getUnusedTicket(string $code): ?Ticket {
+        return Ticket::where('code', '=', $code)
+            ->where('status', '=', 'not_redeemed')
+            ->first();
     }
 
     public function markAsRedeemed(Ticket $ticket, User $user): bool
