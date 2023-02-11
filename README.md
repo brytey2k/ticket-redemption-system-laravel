@@ -26,6 +26,7 @@ This is a system to redeem tickets for events. Features of this system include
   - You may see a `Predis\Connection\ConnectionException` exception but this is because laravel sail has not been started yet. We start laravel sail in the next step
 - Run `./vendor/bin/sail up -d` to start up the application
 - Create database in postgres giving it the same name specified in `.env` file. You can use your favourite database client for this. DataGrip from Jetbrains is what was used for this.
+  - Note: this database is being created in the docker container and not your local machine (if you already have postgres installed locally)
 - Run `./vendor/bin/sail artisan key:generate`
 - Run `./vendor/bin/sail artisan migrate --seed` to create the database with initial data for testing
 - Run `./vendor/bin/sail npm install`
